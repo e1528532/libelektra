@@ -1,8 +1,8 @@
 ## Order of Namespaces ##
 
-This tutorial assumes that you know what [namespaces](/doc/tutorials/namespaces.md) are. We will only be talking about [cascading lookup](/doc/help/elektra-cascading.md) here.
+This tutorial assumes that you know what [namespaces](/doc/tutorials/namespaces.md) are. We will talk about [cascading lookup](/doc/help/elektra-cascading.md) here.
 
-When Elektra looks up a key, the namespaces are searched in this order:
+When Elektra looks up a key, it searches namespaces in the following order:
 
  * [spec](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#spec) (contains metadata, e.g. to modify elektra lookup behaviour)
  * [proc](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#proc) (process-related information)
@@ -10,13 +10,13 @@ When Elektra looks up a key, the namespaces are searched in this order:
  * [user](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#user) (user configuration)
  * [system](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#system) (system configuration)
 
-Looking at this order, we can see that if a configuration option is specified by the user (in the **user** namespace) as well as in the **system** namespace, then the key in the **user** namespace takes precedence over the one in the **system** namespace. If there is no such key in the **user** namespace the key in the **system** namespace acts as a fallback.
+Looking at this order, we can see that if we specify a configuration option in our **user** namespace as well as in the **system** namespace, then the key in the **user** namespace takes precedence over the one in the **system** namespace. If there is no such key in the **user** namespace the key in the **system** namespace acts as a fallback.
 
-But lets demonstrate this with an example:
+Lets look at an example:
 
 ###### Add a Key to the system Namespace ######
 
-Configuration in the **system** namespace is readable for all users and the same for all users. Therefore this namespace provides a default or fallback configuration.
+Configuration in the **system** namespace is readable for all users and the same for all users. This namespace provides a default or fallback configuration.
 
 In the default Elektra installation only an administrator can update configuration here:
 
@@ -68,7 +68,7 @@ kdb set dir/sw/tutorial/cascading/#0/current/test "hello universe"
 kdb get /sw/tutorial/cascading/#0/current/test
 #> hello universe
 
-# But is only present in the associated directory
+# ... and is only present in the associated directory
 cd ..
 kdb get /sw/tutorial/cascading/#0/current/test
 #> hello galaxy
@@ -76,44 +76,44 @@ kdb get /sw/tutorial/cascading/#0/current/test
 
 ###### Add a Key to the proc Namespace ######
 
-The **proc** namespace is not accessible from the commandline, but only from within applications. So we have to omit an example for this namespace at this point.
+The **proc** namespace is only accessible from within applications, not from the commandline. Thus we have to omit an example for this namespace at this point.
 [Elektrified](/doc/help/elektra-glossary.md) applications can use this namespace to override configuration from other namespaces internally.
 
 ###### Add a Key to the spec Namespace ######
 
-Because the **spec** namespace does not contain values of keys but their metadata, Elektra handles the **spec** namespace differently to other namespaces. The following part of the tutorial is dedicated to the impact of the **spec** namespace on cascading lookups.
+Because the **spec** namespace does not contain values of keys but their metadata, Elektra handles the **spec** namespace differently to other namespaces. The following part of the tutorial demonstrates the impact of the **spec** namespace on cascading lookups.
 
 ## Cascading ##
 
 Cascading triggers actions when, for example, the key isn't found.
-This concept is used for our previous example of using `system` configuration
-when the `user` configuration is not defined. When a key starts with `/`,
-*cascading lookup* will automatically be performed. e.g. using `/test` instead
+Our previous example uses this concept of using `system` configuration
+when the `user` configuration is not defined. When a key starts with `/`, a
+*cascading lookup* will automatically be performed, e.g. using `/test` instead
 of `system/test` will do a cascading lookup.
 
 
 ## Override Links ##
 
-The `spec` namespace is special as it can completely change how the cascading
+The `spec` namespace is special as it can change how the cascading
 lookup works.
 
 For example, in the metadata of the respective `spec`-keys, *override links*
-can be specified to use other keys in favor of the key itself. This way, even
+specify to use other keys in favor of the key itself. This way, even
 config from current folders (`dir`) can be overwritten.
 
-In the cascading lookup, metadata of `spec`-keys comes in as follows:
+A cascading lookup considers metadata of `spec`-keys as follows:
 
- 1. `override/#` keys will be considered
- 2. namespaces specified in the `namespaces/#` keys are considered
- 3. Otherwise, all namespaces will be considered, see [here](/doc/help/elektra-namespaces.md).
- 4. `fallback/#` keys will be considered
- 5. `default` value will be returned
+ 1. `override/#` keys
+ 2. namespaces specified in the `namespaces/#` keys
+ 3. Otherwise all namespaces, see [here](/doc/help/elektra-namespaces.md).
+ 4. `fallback/#` keys
+ 5. `default` value 
 
-**Note:** `override/#` means an array of `override` keys, the array can be filled by
+**Note:** `override/#` means an array of `override` keys, fill the array by
           setting `#` followed by the position, e.g. `#0`, `#1`, etc.
 
-As you can see, override links are considered before everything else, which
-makes them really powerful.
+As you can see, a lookup considers override links before everything else, which
+makes them powerful.
 
 To create an override link, first you need to create a key to link the override
 to:
@@ -123,7 +123,7 @@ sudo kdb set system/overrides/test "hello override"
 #> Create a new key system/overrides/test with string hello override
 ```
 
-Override links can be defined by adding them to the `override/#` array:
+Define override links by adding them to the `override/#` array:
 
 ```sh
 sudo kdb setmeta spec/sw/tutorial/cascading/#0/current/test override/#0 /overrides/test
@@ -137,9 +137,9 @@ keys and more. For more information, read the [`elektra-spec` help page](/doc/he
 
 ## User Defaults ##
 
-Override links can also be used to define default values. It's similar to
+Override links can also be used to define default values. It is comparable to
 defining default values via the `system` namespace, but uses overrides, which
-means it will be preferred over the configuration in the current folder (`dir`).
+means it is preferred over the configuration in the current folder (`dir`).
 
 This means that user defaults overwrite values specified in the `.configuration`
 file we created and mounted earlier in this tutorial.
