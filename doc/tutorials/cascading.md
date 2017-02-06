@@ -1,6 +1,7 @@
 ## Order of Namespaces ##
 
-This tutorial assumes that you know what [namespaces](/doc/tutorials/namespaces.md) are. We will talk about [cascading lookup](/doc/help/elektra-cascading.md) here.
+This tutorial assumes that you know what [namespaces](/doc/tutorials/namespaces.md)
+are. We will talk about [cascading lookup](/doc/help/elektra-cascading.md) here.
 
 When Elektra looks up a key, it searches namespaces in the following order:
 
@@ -10,15 +11,21 @@ When Elektra looks up a key, it searches namespaces in the following order:
  * [user](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#user) (user configuration)
  * [system](https://github.com/ElektraInitiative/libelektra/blob/master/doc/help/elektra-namespaces.md#system) (system configuration)
 
-Looking at this order, we can see that if we specify a configuration option in our **user** namespace as well as in the **system** namespace, then the key in the **user** namespace takes precedence over the one in the **system** namespace. If there is no such key in the **user** namespace the key in the **system** namespace acts as a fallback.
+Looking at this order, we can see that if we specify a configuration option in 
+our **user** namespace as well as in the **system** namespace, then the key in 
+the **user** namespace takes precedence over the one in the **system** namespace. 
+If there is no such key in the **user** namespace the key in the **system** 
+namespace acts as a fallback.
 
 Lets look at an example:
 
 ###### Add a Key to the system Namespace ######
 
-Configuration in the **system** namespace is readable for all users and the same for all users. This namespace provides a default or fallback configuration.
+Configuration in the **system** namespace is readable for all users and the same 
+for all users. This namespace provides a default or fallback configuration.
 
-In the default Elektra installation only an administrator can update configuration here:
+In the default Elektra installation only an administrator can update 
+configuration here:
 
 ```sh
 kdb get /sw/tutorial/cascading/#0/current/test
@@ -36,7 +43,8 @@ kdb get /sw/tutorial/cascading/#0/current/test
 
 ###### Add a Key to the user Namespace ######
 
-A user may now want to override the configuration in **system**, so he sets a key in the **user** namespace:
+A user may now want to override the configuration in **system**, so he sets a 
+key in the **user** namespace:
 
 ```sh
 kdb set user/sw/tutorial/cascading/#0/current/test "hello galaxy"
@@ -47,14 +55,18 @@ kdb get /sw/tutorial/cascading/#0/current/test
 #> hello galaxy
 ```
 
-Note that configuration in the **user** namespace only affects _this_ user. Other users would still get the key from the **system** namespace.
+Note that configuration in the **user** namespace only affects _this_ user. 
+Other users would still get the key from the **system** namespace.
 
 ###### Add a Key to the dir Namespace ######
 
-The **dir** namespace is associated with a directory. The configuration in the **dir** namespace applies to the associated directory and all its subdirectories.
-This is useful if you have project specific settings (e.g. your git configuration or a .htaccess file).
+The **dir** namespace is associated with a directory. The configuration in the 
+**dir** namespace applies to the associated directory and all its subdirectories.
+This is useful if you have project specific settings (e.g. your git 
+configuration or a .htaccess file).
 
-As **dir** precedes the **user** namespace, configuration in **dir** can overwrite user configuration:
+As **dir** precedes the **user** namespace, configuration in **dir** can 
+overwrite user configuration:
 
 ```sh
 # create and change to a new directory ...
@@ -76,12 +88,17 @@ kdb get /sw/tutorial/cascading/#0/current/test
 
 ###### Add a Key to the proc Namespace ######
 
-The **proc** namespace is only accessible from within applications, not from the commandline. Thus we have to omit an example for this namespace at this point.
-[Elektrified](/doc/help/elektra-glossary.md) applications can use this namespace to override configuration from other namespaces internally.
+The **proc** namespace is only accessible from within applications, not from the 
+commandline. Thus we have to omit an example for this namespace at this point.
+[Elektrified](/doc/help/elektra-glossary.md) applications can use this namespace 
+to override configuration from other namespaces internally.
 
 ###### Add a Key to the spec Namespace ######
 
-Because the **spec** namespace does not contain values of keys but their metadata, Elektra handles the **spec** namespace differently to other namespaces. The following part of the tutorial demonstrates the impact of the **spec** namespace on cascading lookups.
+Because the **spec** namespace does not contain values of keys but their 
+metadata, Elektra handles the **spec** namespace differently to other namespaces. 
+The following part of the tutorial demonstrates the impact of the **spec** 
+namespace on cascading lookups.
 
 ## Cascading ##
 
