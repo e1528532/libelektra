@@ -338,7 +338,7 @@ macro (configure_haskell_sandbox)
 	# Therefore we use the --offline flag to make the build guaranteed independent
 	# Furthermore we implicitly add the haskell bindings as they are always required
 	add_custom_command (OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/cabal.sandbox.config"
-				COMMAND ${CABAL_EXECUTABLE} sandbox add-source ${CMAKE_BINARY_DIR}/src/bindings/haskell/ -v0
+			    COMMAND ${CABAL_EXECUTABLE} sandbox add-source ${CMAKE_BINARY_DIR}/src/bindings/haskell/ -v0
 			    COMMAND ${CABAL_EXECUTABLE} install ${CABAL_OPTS} --only-dependencies --avoid-reinstalls --offline -v0 || true
 			    APPEND)
 	add_custom_target (${HASKELL_ADD_SOURCES_TARGET} ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/cabal.sandbox.config")
