@@ -9,6 +9,8 @@
 #  GHC_HSPEC_FOUND        - True if the hspec library is available
 #  GHC_QUICKCHECK_FOUND   - True if the QuickCheck library is available
 #  GHC_VERSION			  - The numeric version of the ghc executable
+#  GHC_TARGET_PLATFORM	 - The target platform string of ghc
+#                          sanitized (darwin -> osx, unknown-linux -> linux)
 #  CABAL_DYNLIB_PATH      - The default path where cabal installs dynamic libraries
 #  CABAL_CUSTOM_TARGET    - The default dependencies of the custom Setup.hs for plugins
 #  HASKELL_SHARED_SANDBOX - The sandbox containing all required dependencies for haskell things
@@ -50,8 +52,8 @@ if (GHC-PKG_EXECUTABLE)
 	)
 
 	# correct the mapping..
-	string (REPLACE "apple-darwin" "osx" GHC_TARGET_PLATFORM2 ${GHC_TARGET_PLATFORM})
-	string (REPLACE "unknown-linux" "linux" GHC_TARGET_PLATFORM2 ${GHC_TARGET_PLATFORM2})
+	string (REPLACE "apple-darwin" "osx" GHC_TARGET_PLATFORM ${GHC_TARGET_PLATFORM})
+	string (REPLACE "unknown-linux" "linux" GHC_TARGET_PLATFORM ${GHC_TARGET_PLATFORM})
 
 	# normalize the result variables, 0 means success which corresponds to 1 in cmake booleans
 	if (GHC_HSPEC_FOUND EQUAL 0)
