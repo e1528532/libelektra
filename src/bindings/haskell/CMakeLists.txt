@@ -41,7 +41,7 @@ if (HASKELL_FOUND)
 			     "${CMAKE_CURRENT_SOURCE_DIR}/src/Elektra/Ease.chs"
 			     "${CMAKE_CURRENT_SOURCE_DIR}/test/Elektra.hs"
 			     "${CMAKE_CURRENT_SOURCE_DIR}/test/ElektraRealWorld.hs"
-			     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hs_kdberrors.c"
+			     "${CMAKE_CURRENT_SOURCE_DIR}/src/c/hskdberrors.c"
 			     "${CMAKE_SOURCE_DIR}/src/plugins/haskell/Setup.hs.in")
 
 			# Sometimes building fails reporting an outdated package file. In this case we need to configure the
