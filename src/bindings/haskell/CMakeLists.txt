@@ -5,6 +5,7 @@ set (GHC_MIN_VERSION "8.0.0")
 if (HASKELL_FOUND)
 	if (NOT GHC_VERSION VERSION_LESS ${GHC_MIN_VERSION})
 		if (NOT BUILD_STATIC)
+			add_binding (haskell)
 
 			set (CABAL_INCLUDE_DIRS "\"${CMAKE_SOURCE_DIR}/src/include\", \"${CMAKE_BINARY_DIR}/src/include\"")
 
@@ -60,8 +61,8 @@ if (HASKELL_FOUND)
 
 				# recompile with tests enabled, to get the dependency graph for the static versions correct  the
 				# tests need the elektra library already built - while for the haskell plugins it doesn't matter
-				# as a static build depends on the plugins but not on the bindings, this is the way we can
-				# resolve the  circular dependency by treating the tests separately
+				# as a static build depends on the plugins but not on the bindings, this is the way we can resolve the
+				# circular dependency by treating the tests separately
 				set (
 					HASKELL_TESTS
 					"${CMAKE_CURRENT_BINARY_DIR}/dist/build/testhaskell_basic/testhaskell_basic"
@@ -83,9 +84,9 @@ if (HASKELL_FOUND)
 				add_custom_target (c2hs_haskell_tests ALL DEPENDS ${HASKELL_TESTS})
 				if (INSTALL_TESTING)
 
-					# as those are not controlled by cmake really, adjust the rpath manually  install rpath
-					# is enough, we don't depend on any cabal libraries anymore  tests are statically
-					# compiled
+					# as those are not controlled by cmake really, adjust the rpath manually
+					# install rpath is enough, we don't depend on any cabal libraries anymore
+					# tests are statically compiled
 					foreach (HASKELL_TEST ${HASKELL_TESTS})
 						install (
 							CODE
