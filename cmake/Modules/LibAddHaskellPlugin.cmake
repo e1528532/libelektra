@@ -185,8 +185,8 @@ macro (add_haskell_plugin target)
 
 									add_custom_command (OUTPUT ${PLUGIN_HASKELL_NAME}
 											    COMMAND ${CABAL_EXECUTABLE} configure
-												    ${CABAL_OPTS} -v0
-											    COMMAND ${CABAL_EXECUTABLE} build -v0
+												    ${CABAL_OPTS}
+											    COMMAND ${CABAL_EXECUTABLE} build
 											    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 											    DEPENDS c2hs_haskell
 												    ${PLUGIN_SOURCE_FILES}
@@ -331,7 +331,7 @@ macro (configure_haskell_sandbox)
 			file (COPY "${CMAKE_SOURCE_DIR}/${SANDBOX_ADD_SOURCE}/" DESTINATION "${CMAKE_BINARY_DIR}/${SANDBOX_ADD_SOURCE}")
 
 			add_custom_command (OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/cabal.sandbox.config"
-					    COMMAND ${CABAL_EXECUTABLE} sandbox add-source "${CMAKE_BINARY_DIR}/${SANDBOX_ADD_SOURCE}" -v0
+					    COMMAND ${CABAL_EXECUTABLE} sandbox add-source "${CMAKE_BINARY_DIR}/${SANDBOX_ADD_SOURCE}"
 					    APPEND)
 		endforeach (SANDBOX_ADD_SOURCE ${ARG_SANDBOX_ADD_SOURCES})
 	endif (ARG_SANDBOX_ADD_SOURCES)
@@ -339,7 +339,7 @@ macro (configure_haskell_sandbox)
 	if (BUILD_SHARED OR BUILD_FULL)
 		set (CABAL_OPTS "--enable-shared")
 	endif (BUILD_SHARED OR BUILD_FULL)
-
+	
 	# This only takes care about building the internal dependencies
 	# Everything should already be preinstalled when setting up the shared sandbox
 	# Therefore we use the --offline flag to make the build guaranteed independent
