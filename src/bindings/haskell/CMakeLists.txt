@@ -1,6 +1,6 @@
 find_package (Haskell)
 
-set (GHC_MIN_VERSION "8.0.0")
+set (GHC_MIN_VERSION "8.0.1")
 
 if (HASKELL_FOUND)
 	if (NOT GHC_VERSION VERSION_LESS ${GHC_MIN_VERSION})
