@@ -43,15 +43,14 @@ if (HASKELL_FOUND)
 			     "${CMAKE_CURRENT_SOURCE_DIR}/test/Elektra.hs"
 			     "${CMAKE_CURRENT_SOURCE_DIR}/test/ElektraRealWorld.hs"
 			     "${CMAKE_SOURCE_DIR}/src/plugins/haskell/Setup.hs.in")
-			execute_process (COMMAND ${CABAL_EXECUTABLE} sandbox init --sandbox ${CMAKE_BINARY_DIR}/.cabal-sandbox -v0
+			execute_process (COMMAND ${CABAL_EXECUTABLE} sandbox init --sandbox ${HASKELL_SHARED_SANDBOX} -v0
 					 WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 					 OUTPUT_QUIET)
 
 			# Sometimes building fails reporting an outdated package file. In this case we need to configure the
 			# package again.
 			add_custom_command (OUTPUT ${BINDING_HASKELL_NAME}
-					    COMMAND ${CABAL_EXECUTABLE} update -v0
-					    COMMAND ${CABAL_EXECUTABLE} install ${CABAL_OPTS} --only-dependencies -v0 || true
+						COMMAND ${CABAL_EXECUTABLE} sandbox init ${HASKELL_SHARED_SANDBOX} -v0 
 					    COMMAND ${CABAL_EXECUTABLE} configure ${CABAL_OPTS} -v0
 					    COMMAND ${CABAL_EXECUTABLE} build -v0 || ${CABAL_EXECUTABLE} configure ${CABAL_OPTS} -v0 &&
 						    ${CABAL_EXECUTABLE} build -v0
@@ -59,14 +58,6 @@ if (HASKELL_FOUND)
 					    DEPENDS ${BINDING_HASKELL_DEPENDENCIES}
 						    ${ELEKTRA_DEPENDENCY})
 			add_custom_target (c2hs_haskell ALL DEPENDS "${BINDING_HASKELL_NAME}")
-			if (BUILD_SHARED OR BUILD_FULL)
-
-				# build and install it to the global db
-				install (
-					CODE
-					"execute_process (COMMAND ${CABAL_EXECUTABLE} --ignore-sandbox install -v0 WORKING_DIRECTORY \"${CMAKE_CURRENT_BINARY_DIR}\")"
-					)
-			endif (BUILD_SHARED OR BUILD_FULL)
 
 			if (BUILD_TESTING)
 
@@ -85,8 +76,6 @@ if (HASKELL_FOUND)
 				# Sometimes building fails reporting an outdated package file. In this case we need to configure the
 				# package again.
 				add_custom_command (OUTPUT ${HASKELL_TESTS}
-						    COMMAND ${CABAL_EXECUTABLE} install ${CABAL_OPTS} --enable-tests
-							    --only-dependencies -v0 || true
 						    COMMAND ${CABAL_EXECUTABLE} configure ${CABAL_OPTS} --enable-tests -v0
 						    COMMAND ${CABAL_EXECUTABLE} build -v0 || ${CABAL_EXECUTABLE} configure ${CABAL_OPTS}
 							    --enable-tests -v0 && ${CABAL_EXECUTABLE} build -v0
