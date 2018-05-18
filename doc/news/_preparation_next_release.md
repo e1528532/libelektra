@@ -52,7 +52,10 @@ You can also read the news [on our website](https://www.libelektra.org/news/0.8.
 
 We added even more functionality, which could not make it to the highlights:
 
-- <<TODO>>
+- The build system no longer installs haskell dependencies from hackage by itself, instead
+  this has to be done beforehand like it is the case with all other dependencies. The main
+  reason is that the build servers shouldn't compile the dependencies over and over again,
+  only if something changes. See the [readme](https://github.com/ElektraInitiative/libelektra/blob/master/src/bindings/haskell/README.md).
 - <<TODO>>
 - <<TODO>>
 
