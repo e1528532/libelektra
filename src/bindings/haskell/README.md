@@ -80,7 +80,10 @@ In case you want to install every haskell based plugin, use this command instead
 ```
 cabal install 'Cabal >=1.24 && <2.1' 'containers >=0.4 && <0.6' 'base >=4.7 && <5' \
 	'directory >=1.1 && <1.4' 'process >=1.2 && <1.7' 'filepath >=1.3 && <1.5' \
-	'hspec -any' 'QuickCheck -any'
+	'haskell-src-exts -any' 'pretty -any' 'hint >=0.7.0 && <0.8.0' 'directory -any' \
+	'temporary -any' 'exceptions ==0.8.*' 'text -any' 'simple-logger -any' \
+	'ghc >=8.0.1 && <8.4' 'ghc-tcplugins-extra >=0.2.5 && <0.3' 'containers -any' \
+	'megaparsec -any' 'base -any' 'hspec -any' 'QuickCheck -any'
 ```
 
 Now everything should be ready and awaits compilation.
