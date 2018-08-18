@@ -28,6 +28,14 @@ RUN apt-get update && apt-get -y install \
         valgrind \
         checkinstall \
         swig \
+        libgmp-dev \
+        wget \
+        ghc \
+        cabal-install \
+        alex \
+        happy \
+        c2hs \
+        cmake-curses-gui \
     && rm -rf /var/lib/apt/lists/*
 
 # Google Test
